@@ -1,0 +1,9 @@
+.historical-graph-container {
+    background-color: #2e2b55;
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.historical-graph-container canvas {
+    max-width: 100%;
+}
