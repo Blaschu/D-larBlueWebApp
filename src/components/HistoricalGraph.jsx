@@ -1,58 +1,72 @@
-import React, { useEffect, useState } from "react";
-import { Line } from "react-chartjs-2";
-import { getHistoricalRates } from "../api/api";
+import React, { useEffect, useState } from 'react';
+import { Line } from 'react-chartjs-2';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+} from 'chart.js';
+import { getHistoricalRates } from '../api/api';
 import '../styles/HistoricalGraph.css';
 
-function HistoricalGraph () {
-    const [chartData, setChartData] = useState({});
-    const [loading, setLoading] = useState(true);
+// Registrar los componentes en Chart.js
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+);
 
-    const fetchHistoricalData = async () => {
-        setLoading(true);
-        try {
-            const data = await getHistoricalRates();
-            console.log('Historical Data', data);
-
-            //Extraemos las fechas y los valores para los dos tipos de cambio
-            const dates = data.map(item => item.data);
-            const blueRates = data.map(item => item.blue.value_avg);
-            const oficialRates = data.map(item => item.oficial.value_avg);
-
-            //Configuramos los datos para el grafico
-            setChartData({
-                labels: dates,
-                datasets: [
-                    {
-                        label: 'Dólar Blue',
-                        data: blueRates,
-                        borderColor: 'blue',
-                        fill: false,
-                    },
-                    {
-                        label: 'Dólar Oficial',
-                        data: oficialRates,
-                        borderColor: 'green',
-                        fill: false,
-                    }
-                ]
-            });
-        } catch (error){
-            console.error('Error fetching historical data:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
+const HistoricalGraph = () => {
+    const [chartData, setChartData] = useState(null);
 
     useEffect(() => {
+        const fetchHistoricalData = async () => {
+            try {
+                const data = await getHistoricalRates();
+                const formattedData = {
+                    labels: data.map(item => item.date),
+                    datasets: [
+                        {
+                            label: 'Venta Oficial',
+                            data: data
+                                .filter(item => item.source === 'Oficial')
+                                .map(item => item.value_sell),
+                            borderColor: 'blue',
+                            fill: false,
+                        },
+                        {
+                            label: 'Venta Blue',
+                            data: data
+                                .filter(item => item.source === 'Blue')
+                                .map(item => item.value_sell),
+                            borderColor: 'red',
+                            fill: false,
+                        },
+                    ],
+                };
+                setChartData(formattedData);
+            } catch (error) {
+                console.error('Error fetching historical data:', error);
+            }
+        };
+
         fetchHistoricalData();
-    },[]);
+    }, []);
 
     return (
-        <div className="historical-graph-container">
-            {loading ? (
-                <p>Loading...</p>
+        <div>
+            {chartData ? (
+                <Line data={chartData} />
             ) : (
-                <Line data={chartData} options={{ responsive: true}} />
+                <p>Loading chart...</p>
             )}
         </div>
     );

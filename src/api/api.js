@@ -12,7 +12,7 @@ export const getExchangeRates = async () => {
 
 export const getHistoricalRates = async () => {
     try {
-        const response = await axios.get('https://bluelytics.com.ar/#!/evolution');
+        const response = await axios.get('https://api.bluelytics.com.ar/v2/evolution.json');
         return response.data;
     } catch (error) {
         console.error('Error fetching historical rates:', error);

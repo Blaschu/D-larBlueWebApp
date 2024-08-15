@@ -5,5 +5,5 @@
 }
 
 .historical-graph-container canvas {
-    max-width: 100%;
+    max-width: 75%;
 }
