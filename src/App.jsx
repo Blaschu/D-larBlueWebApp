@@ -4,6 +4,7 @@ import './styles/App.css';
 import Home from './pages/Home';
 import NavBar from './components/NavBar';
 import HistoricalGraph from './components/HistoricalGraph';
+import GapGraph from './components/GapGraph';
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
             <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path='/historical-graph' element={<HistoricalGraph />} />
+                <Route path='/gap-graph' element={<GapGraph />} />
             </Routes>
         </Router>
     )

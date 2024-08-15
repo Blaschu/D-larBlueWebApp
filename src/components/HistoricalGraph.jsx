@@ -11,6 +11,7 @@ import {
     Legend,
 } from 'chart.js';
 import { getHistoricalRates } from '../api/api';
+import { Oval } from 'react-loader-spinner';
 import '../styles/HistoricalGraph.css';
 
 // Registrar los componentes en Chart.js
