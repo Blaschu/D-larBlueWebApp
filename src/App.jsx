@@ -5,6 +5,8 @@ import Home from './pages/Home';
 import NavBar from './components/NavBar';
 import HistoricalGraph from './components/HistoricalGraph';
 import GapGraph from './components/GapGraph';
+import DatepickerCurrency from './components/DatepickerCurrency';
+
 
 function App() {
     return (
@@ -12,6 +14,7 @@ function App() {
             <NavBar />
             <Routes>
                 <Route path='/' element={<Home />} />
+                <Route path='/datepicker-currency' element={<DatepickerCurrency />} />
                 <Route path='/historical-graph' element={<HistoricalGraph />} />
                 <Route path='/gap-graph' element={<GapGraph />} />
             </Routes>

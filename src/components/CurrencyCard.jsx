@@ -29,7 +29,14 @@ const CurrencyCard = ({ title, type }) => {
     };
 
     useEffect(() => {
+        // Fetch the initial rate
         fetchRate();
+
+        // Set an interval to fetch the rate every 5 minutes
+        const intervalId = setInterval(fetchRate, 300000); // 300,000 ms = 5 min
+
+        // Clear interval on component unmount
+        return () => clearInterval(intervalId);
     }, []);
 
     if (loading) return <Oval color="#f3dfed" secondaryColor="#f3dfed" />;
