@@ -5,7 +5,12 @@ import { getHistoricalRatesByDay } from '../api/api';
 import "../styles/CurrencyCard.css";
 
 const DatepickerCurrency = ({ title, type }) => {
-    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState(() => {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        return yesterday;
+    });
+
     const [exchangeRate, setExchangeRate] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -13,17 +18,18 @@ const DatepickerCurrency = ({ title, type }) => {
         setLoading(true);
         const formattedDate = date.toISOString().split('T')[0];
         const today = new Date().toISOString().split('T')[0];
-    
+
         if (formattedDate >= today) {
             console.warn(`No data available for ${formattedDate}. The date is too recent.`);
             setExchangeRate(null);
             setLoading(false);
             return;
         }
-    
+
         try {
             const data = await getHistoricalRatesByDay(formattedDate);
             const rateData = data[type];
+
             if (rateData) {
                 setExchangeRate(rateData);
             } else {
@@ -39,8 +45,12 @@ const DatepickerCurrency = ({ title, type }) => {
     };
 
     useEffect(() => {
-        fetchRateByDate(selectedDate);
-    }, [selectedDate]);
+        if (type) {
+            fetchRateByDate(selectedDate);
+        } else {
+            console.error('Type is undefined. Please provide a valid type (e.g., "oficial" or "blue").');
+        }
+    }, [selectedDate, type]);
 
     if (loading) return <div>Loading...</div>;
 

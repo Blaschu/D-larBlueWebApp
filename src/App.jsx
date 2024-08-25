@@ -14,7 +14,7 @@ function App() {
             <NavBar />
             <Routes>
                 <Route path='/' element={<Home />} />
-                <Route path='/datepicker-currency' element={<DatepickerCurrency />} />
+                <Route path='/datepicker-currency' element={<DatepickerCurrency title="Dólar Oficial" type="oficial" /> } />
                 <Route path='/historical-graph' element={<HistoricalGraph />} />
                 <Route path='/gap-graph' element={<GapGraph />} />
             </Routes>
