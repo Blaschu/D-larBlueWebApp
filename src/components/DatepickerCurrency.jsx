@@ -10,31 +10,19 @@ const DatepickerCurrency = ({ title, type }) => {
         yesterday.setDate(yesterday.getDate() - 1);
         return yesterday;
     });
-
     const [exchangeRate, setExchangeRate] = useState(null);
     const [loading, setLoading] = useState(false);
 
     const fetchRateByDate = async (date) => {
         setLoading(true);
-        const formattedDate = date.toISOString().split('T')[0];
-        const today = new Date().toISOString().split('T')[0];
-
-        if (formattedDate >= today) {
-            console.warn(`No data available for ${formattedDate}. The date is too recent.`);
-            setExchangeRate(null);
-            setLoading(false);
-            return;
-        }
-
         try {
+            const formattedDate = date.toISOString().split('T')[0];
             const data = await getHistoricalRatesByDay(formattedDate);
             const rateData = data[type];
-
             if (rateData) {
                 setExchangeRate(rateData);
             } else {
-                console.warn(`No data available for type: ${type} on ${formattedDate}`);
-                setExchangeRate(null);
+                throw new Error(`No data available for type: ${type}`);
             }
         } catch (error) {
             console.error('Error fetching rate:', error);
@@ -54,17 +42,17 @@ const DatepickerCurrency = ({ title, type }) => {
 
     if (loading) return <div>Loading...</div>;
 
-    if (!exchangeRate) return <div>No data available for {title}</div>;
-
-    const { value_avg, value_buy, value_sell } = exchangeRate;
-
     return (
-        <div className="currency-card">
-            <h3>{title}</h3>
+        <div>
             <DatePicker selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
-            <p>Promedio: ${value_avg ? value_avg.toFixed(2) : 'N/A'}</p>
-            <p>Compra: ${value_buy ?? 'N/A'}</p>
-            <p>Venta: ${value_sell ?? 'N/A'}</p>
+            {exchangeRate && (
+                <CurrencyCard 
+                    title={title}
+                    value_avg={exchangeRate.value_avg}
+                    value_buy={exchangeRate.value_buy}
+                    value_sell={exchangeRate.value_sell}
+                />
+            )}
         </div>
     );
 };
