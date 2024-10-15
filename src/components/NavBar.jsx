@@ -6,9 +6,9 @@ function NavBar () {
     return (
         <nav className="navBar">
             <MainButton label="Home" to="/" />
-            <MainButton label="Fecha de Cotizacion(no available)" to="" />
-            <MainButton label="Gráfico histórico(no available)" to="" />
-            <MainButton label="Gráfico de Brecha(no available)" to="" />
+            <MainButton label="Fecha de Cotizacion" to="/datepicker-currency" />
+            <MainButton label="Gráfico histórico" to="/historical-graph" />
+            <MainButton label="Gráfico de Brecha" to="/gap-graph" />
         </nav>
     );
 };

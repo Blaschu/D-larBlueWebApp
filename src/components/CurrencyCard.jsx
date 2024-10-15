@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import "../styles/CurrencyCard.css"
 
 const CurrencyCard = ({ title, value_avg, value_buy, value_sell }) => (

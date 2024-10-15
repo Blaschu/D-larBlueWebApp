@@ -9,6 +9,7 @@ import {
     Title,
     Tooltip,
     Legend,
+    Filler
 } from 'chart.js';
 import { getHistoricalRates } from '../api/api';
 import { Oval } from 'react-loader-spinner';
@@ -22,7 +23,8 @@ ChartJS.register(
     LineElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    Filler
 );
 
 const HistoricalGraph = () => {
