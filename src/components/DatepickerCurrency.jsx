@@ -47,7 +47,10 @@ const DatepickerCurrency = ({ title }) => {
 
     return (
         <div className="cards-container-picker">
-            <DatePicker selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
+            <div>
+                <h2>Seleciona la fecha</h2>
+                <DatePicker selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
+            </div>
             {exchangeRates.oficial && exchangeRates.blue && (
                 <>
                     {/* CurrencyCard para el dólar oficial */}

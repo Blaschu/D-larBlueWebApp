@@ -40,7 +40,7 @@ const Home = () => {
 
     return (
         <div className="home-container">
-            <h1>Cotización del Dólar y Euro</h1>
+            <h1 className='home-title'>Cotización del Dólar y Euro</h1>
             <div className="cards-container">
             {types.map(({ type, title }) => {
                 const rateData = exchangeRates[type];
