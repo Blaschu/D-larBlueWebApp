@@ -12,6 +12,7 @@ import {
     PointElement,
     Filler
 } from 'chart.js';
+import zoomPlugin from 'chartjs-plugin-zoom'; 
 
 ChartJS.register(
     LineElement,
@@ -21,7 +22,8 @@ ChartJS.register(
     Tooltip,
     Legend,
     PointElement,
-    Filler
+    Filler,
+    zoomPlugin
 );
 
 const GapGraph = () => {
@@ -78,11 +80,59 @@ const GapGraph = () => {
         fetchData();
     }, []);
 
+    const options = {
+        responsive: true, // Hace el gráfico responsive
+        maintainAspectRatio: false, // Permite modificar el aspecto del gráfico en pantallas más pequeñas
+        scales: {
+            x: {
+                reverse: true, // Ordena las fechas de izquierda a derecha
+                ticks: {
+                    autoSkip: true, // Saltar etiquetas si son muchas
+                    maxTicksLimit: 50, // Máximo número de etiquetas visibles
+                },
+                grid: {
+                    display: true, // Oculta las líneas verticales
+                },
+            },
+            y: {
+                beginAtZero: false, // Empieza el gráfico desde 0
+                ticks: {
+                    callback: function (value) {
+                        return `$${value}`; // Formatea los valores con un símbolo de dólar
+                    },
+                },
+                grid: {
+                    color: 'rgba(0, 0, 0, 0.1)', // Color de las líneas horizontales
+                },
+            },
+        },
+        plugins: {
+            legend: {
+                position: 'top', // Posiciona la leyenda en la parte superior
+                labels: {
+                    boxWidth: 10, // Tamaño del cuadro en la leyenda
+                },
+            },
+            title: {
+                display: true,
+                text: 'Histórico de Ventas del Dólar (Oficial y Blue)',
+            },
+        },
+        interaction: {
+            mode: 'index', // Muestra información al pasar sobre los puntos
+            intersect: true, // Permite mostrar el tooltip al pasar entre puntos
+        },
+        animation: {
+            duration: 1000, // Duración de la animación
+            easing: 'easeInOutQuad', // Efecto de la animación
+        },
+    };
+
     return (
         <div>
             <h2>Brecha entre Dólar Oficial y Blue</h2>
             {/* Render condicional: solo muestra el gráfico si hay datos */}
-            {chartData.labels.length > 0 && <Line data={chartData} />}
+            {chartData.labels.length > 0 && <Line data={chartData} options={options}/>}
         </div>
     );
 };

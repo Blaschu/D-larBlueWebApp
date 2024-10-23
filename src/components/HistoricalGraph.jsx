@@ -11,6 +11,7 @@ import {
     Legend,
     Filler
 } from 'chart.js';
+import zoomPlugin from 'chartjs-plugin-zoom'; 
 import { getHistoricalRates } from '../api/api';
 import { Oval } from 'react-loader-spinner';
 import '../styles/HistoricalGraph.css';
@@ -24,7 +25,8 @@ ChartJS.register(
     Title,
     Tooltip,
     Legend,
-    Filler
+    Filler,
+    zoomPlugin  
 );
 
 const HistoricalGraph = () => {
@@ -100,6 +102,21 @@ const HistoricalGraph = () => {
             title: {
                 display: true,
                 text: 'Histórico de Ventas del Dólar (Oficial y Blue)',
+            },
+            zoom: {
+                pan: {
+                    enabled: true,  // Habilitar desplazamiento
+                    mode: 'x',      // Solo permite desplazamiento en el eje X
+                },
+                zoom: {
+                    wheel: {
+                        enabled: true,  // Habilitar zoom con la rueda del mouse
+                    },
+                    pinch: {
+                        enabled: true,  // Habilitar zoom en pantallas táctiles
+                    },
+                    mode: 'x',         // Solo hacer zoom en el eje X
+                },
             },
         },
         interaction: {
