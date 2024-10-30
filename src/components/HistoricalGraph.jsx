@@ -9,9 +9,11 @@ import {
     Title,
     Tooltip,
     Legend,
-    Filler
+    Filler,
+    TimeScale
 } from 'chart.js';
 import zoomPlugin from 'chartjs-plugin-zoom'; 
+import 'chartjs-adapter-date-fns';
 import { getHistoricalRates } from '../api/api';
 import { Oval } from 'react-loader-spinner';
 import '../styles/HistoricalGraph.css';
@@ -26,7 +28,8 @@ ChartJS.register(
     Tooltip,
     Legend,
     Filler,
-    zoomPlugin  
+    zoomPlugin,
+    TimeScale  
 );
 
 const HistoricalGraph = () => {
@@ -71,6 +74,10 @@ const HistoricalGraph = () => {
         maintainAspectRatio: false, // Permite modificar el aspecto del gráfico en pantallas más pequeñas
         scales: {
             x: {
+                type: 'time',
+                time: {
+                    unit: 'month',
+                },
                 reverse: true, // Ordena las fechas de izquierda a derecha
                 ticks: {
                     autoSkip: true, // Saltar etiquetas si son muchas
@@ -79,6 +86,7 @@ const HistoricalGraph = () => {
                 grid: {
                     display: true, // Oculta las líneas verticales
                 },
+                min: '2017-10-23'
             },
             y: {
                 beginAtZero: false, // Empieza el gráfico desde 0
@@ -130,13 +138,15 @@ const HistoricalGraph = () => {
     };
 
     return (
-        <div style={{ position: 'relative', height: '400px', width: '100%' }}>
-            {chartData ? (
-                <Line data={chartData} options={options} />
-            ) : (
-                <p>Loading chart...</p>,
-                <Oval color="#f3dfed" secondaryColor="#f3dfed"/>
-            )}
+        <div className='chart-container'>
+            <div style={{ position: 'relative', height: '400px', width: '100%' }}>
+                {chartData ? (
+                    <Line data={chartData} options={options} />
+                ) : (
+                    <p>Loading chart...</p>,
+                    <Oval color="#f3dfed" secondaryColor="#f3dfed"/>
+                )}
+        </div>
         </div>
     );
 };

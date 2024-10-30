@@ -3,6 +3,14 @@
     padding: 2rem;
     border-radius: 10px;
 }
+.chart-container{
+    border: 2px solid #fff;
+    border-radius: 8px;
+    background-color: #140F07;
+    padding: 30px;
+    max-width: 1200px;
+    color: #fff;
+}
 
 .historical-graph-container canvas {
     max-width: 75%;

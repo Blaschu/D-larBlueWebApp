@@ -1,7 +1,6 @@
 .home-container {
     display: flex;
     flex-direction: column;
-
     align-items: center;
     height: 150vh;
     width: 75%;
