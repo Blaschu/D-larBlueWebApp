@@ -85,7 +85,8 @@ const GapGraph = () => {
         maintainAspectRatio: false, // Permite modificar el aspecto del gráfico en pantallas más pequeñas
         scales: {
             x: {
-                reverse: true, // Ordena las fechas de izquierda a derecha
+                
+                reverse: false, // Ordena las fechas de izquierda a derecha
                 ticks: {
                     autoSkip: true, // Saltar etiquetas si son muchas
                     maxTicksLimit: 50, // Máximo número de etiquetas visibles
@@ -93,6 +94,11 @@ const GapGraph = () => {
                 grid: {
                     display: true, // Oculta las líneas verticales
                 },
+                type: 'time',
+                time: {
+                    unit: 'month',
+                },
+                min: '2017-10-23'
             },
             y: {
                 beginAtZero: false, // Empieza el gráfico desde 0
@@ -117,6 +123,21 @@ const GapGraph = () => {
                 display: true,
                 text: 'Histórico de Ventas del Dólar (Oficial y Blue)',
             },
+            zoom: {
+                pan: {
+                    enabled: true,  // Habilitar desplazamiento
+                    mode: 'x',      // Solo permite desplazamiento en el eje X
+                },
+                zoom: {
+                    wheel: {
+                        enabled: true,  // Habilitar zoom con la rueda del mouse
+                    },
+                    pinch: {
+                        enabled: true,  // Habilitar zoom en pantallas táctiles
+                    },
+                    mode: 'x',         // Solo hacer zoom en el eje X
+                },
+            },
         },
         interaction: {
             mode: 'index', // Muestra información al pasar sobre los puntos
@@ -129,7 +150,7 @@ const GapGraph = () => {
     };
 
     return (
-        <div>
+        <div className='chart-container'>
             <h2>Brecha entre Dólar Oficial y Blue</h2>
             {/* Render condicional: solo muestra el gráfico si hay datos */}
             {chartData.labels.length > 0 && <Line data={chartData} options={options}/>}

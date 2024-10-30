@@ -74,17 +74,18 @@ const HistoricalGraph = () => {
         maintainAspectRatio: false, // Permite modificar el aspecto del gráfico en pantallas más pequeñas
         scales: {
             x: {
-                type: 'time',
-                time: {
-                    unit: 'month',
-                },
-                reverse: true, // Ordena las fechas de izquierda a derecha
+                
+                reverse: false, // Ordena las fechas de izquierda a derecha
                 ticks: {
                     autoSkip: true, // Saltar etiquetas si son muchas
                     maxTicksLimit: 50, // Máximo número de etiquetas visibles
                 },
                 grid: {
                     display: true, // Oculta las líneas verticales
+                },
+                type: 'time',
+                time: {
+                    unit: 'month',
                 },
                 min: '2017-10-23'
             },
